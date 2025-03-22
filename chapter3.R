@@ -1,4 +1,4 @@
-## 3-2 변수와 변수의 저장
+## 3-1 변수와 변수의 저장
 a<-1  ##변수에 숫자저장
 b<-2
 a+b
@@ -25,4 +25,21 @@ str4
 str5
 str4+str5 ##단 문자 변수는 계산이 되지 않는다
 
+##3-2 함수에 대하여
+x<-c(1,2,3)
+mean(x) ##평균을 내는 함수
+## [1] 2
+max(x) ##최댓값을 내는 함수
+## [1] 3
+min (x) ##최솟값을 내는 함수
+## [1] 1
 
+str5<-c("Hello!", "World", "is", "good")
+paste (str5, collapse=",") 
+##[1] "Hello!,World,is,good"
+
+paste(str5, collapse= " ")
+
+x_mean <-mean(x) ##새 변수에 집어넣기
+str5_paste<-paste(str5,collapse=" ")
+str5_paste
