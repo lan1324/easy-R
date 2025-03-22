@@ -43,3 +43,42 @@ paste(str5, collapse= " ")
 x_mean <-mean(x) ##새 변수에 집어넣기
 str5_paste<-paste(str5,collapse=" ")
 str5_paste
+
+## 3-3 패키지 이해하기
+# ggplot2 패키지 설치
+install.packages("ggplot2")
+library(ggplot2) ##패키지 로드
+x<-c("a", "a", "b", "c")
+qplot(x)
+
+qplot(data=mpg, x=hwy) #mpg=mile for gallon, hwy=고속도로
+# x축 cty
+qplot(data=mpg, x=cty)
+# x축drv, y축 hwy
+qplot(data=mpg, x=drv, y=hwy)
+# x축 drv, y축 hwy, 선 그래프
+qplot(data=mpg, x=drv, y=hwy, geom="line")
+# 상자 그림 형태
+qplot(data=mpg, x=drv, y=hwy, geom="boxplot")
+# drv별 색 표현현
+qplot(data=mpg, x=drv, y=hwy, geom="boxplot", colour=drv)
+
+#도움말 출력
+?qplot
+
+#---------------------------------------
+
+##혼자서해보기
+# Q1. 시험점수 변수 만들고 출력하기
+stu_score<-c(80, 60, 70, 50, 90)
+stu_score
+# [1] 80 60 70 50 90
+
+# Q2. 전체 평균 구하기
+mean(stu_score)
+# [1] 70
+
+# Q3. 전체 평균 변수 만들고 출력하기
+aver_score<-mean(stu_score)
+aver_score
+# [1] 70
