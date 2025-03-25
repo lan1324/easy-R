@@ -1,6 +1,17 @@
+## ---------chapter 4 ------------
+# 4-2 데이터 프레임 만들기
+english <- c(90, 80, 60, 70) #영어점수 변수 생성
+english
+#[1] 90 80 60 70
 
-stu_score<-c(80, 60, 70, 50, 90)
-stu_score
-# [1] 80 60 70 50 90
+math <- c(50, 60, 100, 20)
+math
+# [1]  50  60 100  20
 
-##rrr
+df_midterm <- data.frame(english, math)
+df_midterm
+##  english math
+## 1      90   50
+## 2      80   60
+## 3      60  100
+## 4      70   20
