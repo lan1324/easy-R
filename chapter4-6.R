@@ -84,3 +84,19 @@ df_midterm
 df_midterm<-readRDS("C:/Users/gangh/Desktop/easy_r/R/df_midterm.rds", col_name = F)
 ## 파일 불러오기
 df_midterm
+
+
+## ---------chapter 5 ------------
+# 5-1 데이터 파악하기
+
+exam<-read.csv("C:/Users/gangh/Desktop/easy_r/R/csv_exam.csv")
+head(exam) ## 데이터 앞부분 출력 (앞에서부터 여섯번째 행까지)
+head(exam, 10)
+
+tail(exam) ## 데이터 뒷부분 출력(뒤에서부터 6번째 행까지)
+tail(exam, 10) ## 데이터 뒷부분 출력 (뒤에서부터 10번째 행까지)
+
+View(exam) ## 뷰어창에서 데이터 확인 - 맨 앞이 대문자 V
+
+dim(exam) ## 행, 열 출력
+## [1] 20  5
