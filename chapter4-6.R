@@ -47,3 +47,19 @@ df_sale
 ## 2 딸기 1500     38
 ## 3 수박 3000     13
 
+## 4-3 외부데이터 이용하기
+install.packages("readxl") ##함수설치
+library(readxl) ##함수로드
+
+df_exam<-read_excel("C:\\Users\\gangh\\Documents\\GitHub\\easy-R\\excel_exam.xlsx") 
+##프로젝트 파일 외의 공간에 있으면 경로를 넣어줘아한다. 
+## '\U' used without hex digits in character string << \를 특수 명령어로 착각한 것이니 \를 \\나 /로 바꾸면 해결할 수 있다
+df_exam
+
+mean(df_exam$english)
+## [1] 84.9
+mean(df_exam$science)
+## [1] 59.45
+
+df_exam_novar<-read_excel("C:/Users/gangh/Documents/GitHub/easy-R/excel_exam_novar.xlsx", col_names = F) ## col_names 파라미터로 첫번째 행을 변수로 인식, F는 대문자
+df_exam_novar
