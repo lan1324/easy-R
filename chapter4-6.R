@@ -125,3 +125,39 @@ install.packages("ggplot2")
 mpg<-as.data.frame(ggplot2::mpg) ## mpg데이터를 데이터 프레임 형태로 불러옴
 ## ggplot2::mpg<< ggplot2 속의 mpg데이터를 지칭하는 코드
 
+head(mpg) ## 앞부분 6행 보기
+## manufacturer model displ year cyl      trans drv cty hwy fl   class
+## 1         audi    a4   1.8 1999   4   auto(l5)   f  18  29  p compact
+## 2         audi    a4   1.8 1999   4 manual(m5)   f  21  29  p compact
+## 3         audi    a4   2.0 2008   4 manual(m6)   f  20  31  p compact
+## 4         audi    a4   2.0 2008   4   auto(av)   f  21  30  p compact
+## 5         audi    a4   2.8 1999   6   auto(l5)   f  16  26  p compact
+## 6         audi    a4   2.8 1999   6 manual(m5)   f  18  26  p compact
+
+tail(mpg) ## 데이터 뒷부분 보기
+## manufacturer  model displ year cyl      trans drv cty hwy fl   class
+## 229   volkswagen passat   1.8 1999   4   auto(l5)   f  18  29  p midsize
+## 230   volkswagen passat   2.0 2008   4   auto(s6)   f  19  28  p midsize
+## 231   volkswagen passat   2.0 2008   4 manual(m6)   f  21  29  p midsize
+## 232   volkswagen passat   2.8 1999   6   auto(l5)   f  16  26  p midsize
+## 233   volkswagen passat   2.8 1999   6 manual(m5)   f  18  26  p midsize
+## 234   volkswagen passat   3.6 2008   6   auto(s6)   f  17  26  p midsize
+
+dim(mpg) ## 행, 열 보기
+## [1] 234  11
+
+str(mpg) ## 데이터 속성 보기
+## data.frame':	234 obs. of  11 variables:
+##  $ manufacturer: chr  "audi" "audi" "audi" "audi" ...
+##  $ model       : chr  "a4" "a4" "a4" "a4" ...
+##  $ displ       : num  1.8 1.8 2 2 2.8 2.8 3.1 1.8 1.8 2 ...
+
+summary(mpg)
+## manufacturer          model               displ            year           cyl       
+## Length:234         Length:234         Min.   :1.600   Min.   :1999   Min.   :4.000  
+## Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999   1st Qu.:4.000  
+## Mode  :character   Mode  :character   Median :3.300   Median :2004   Median :6.000  
+## Mean   :3.472   Mean   :2004   Mean   :5.889  
+## 3rd Qu.:4.600   3rd Qu.:2008   3rd Qu.:8.000  
+## Max.   :7.000   Max.   :2008   Max.   :8.000 
+
