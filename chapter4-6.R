@@ -61,5 +61,6 @@ mean(df_exam$english)
 mean(df_exam$science)
 ## [1] 59.45
 
-df_exam_novar<-read_excel("C:/Users/gangh/Documents/GitHub/easy-R/excel_exam_novar.xlsx", col_names = F) ## col_names 파라미터로 첫번째 행을 변수로 인식, F는 대문자
+df_exam_novar<-read_excel("C:/Users/gangh/Documents/GitHub/easy-R/excel_exam_novar.xlsx", col_names = F) 
+## col_names 파라미터로 첫번째 행을 변수로 인식, F는 대문자
 df_exam_novar
