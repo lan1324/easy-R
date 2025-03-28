@@ -161,3 +161,31 @@ summary(mpg)
 ## 3rd Qu.:4.600   3rd Qu.:2008   3rd Qu.:8.000  
 ## Max.   :7.000   Max.   :2008   Max.   :8.000 
 
+##5-2 변수명 바꾸기
+
+df_raw<-data.frame(var1=c(1, 2, 1), var2=c(2, 3, 2)) ##데이터 프레임 형성
+install.packages ("dplyr") ## dplyr설치
+library(dplyr) ##함수 로드
+
+df_new<-df_raw ## 복사본 형성
+df_new<-rename(df_new, v2=var2) ## rename() 함수로 var2 > v2
+df_new
+## var1 v2
+## 1    1  2
+## 2    2  3
+## 3    1  2
+
+#혼자서 해보기
+## Q1.  mpg 불러와 복사본 만들기
+library(ggplot2)
+mpg<-ggplot2::mpg
+mpg_new<-mpg
+
+## Q2. 변수명 변경
+mpg_new<-rename(mpg_new, city=cty, highway=hwy)
+
+## Q3 변경 확인
+mpg_new
+## manufacturer model      displ  year   cyl trans      drv    city highway fl    class  
+## <chr>        <chr>      <dbl> <int> <int> <chr>      <chr> <int>   <int> <chr> <chr>  
+##   1 audi         a4           1.8  1999     4 auto(l5)   f        18      29 p     compact
