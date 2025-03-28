@@ -230,3 +230,20 @@ library(ggplot2) ## 패키지 로드
 qplot(mpg$test) ## 막대 그래프 생성
 
 
+mpg$grade<- ifelse(mpg$total>=30, "A", 
+                   ifelse(mpg$total>=20, "B", "C"))
+head(mpg, 20)
+##manufacturer test  grade
+## <chr>     <chr> <chr>
+##  1 audi   pass  B    
+##  2 audi   pass  B 
+
+table(mpg$grade)
+## A   B   C 
+## 10 118 106
+
+qplot(mpg$grade)
+
+mpg$grade2<-ifelse(mpg$total>=30, "A"
+                   ifelse(mpg$total>=25, "B"
+                          ifelse(mpg$total>=20, "C", "D")))
