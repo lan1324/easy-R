@@ -64,3 +64,23 @@ mean(df_exam$science)
 df_exam_novar<-read_excel("C:/Users/gangh/Documents/GitHub/easy-R/excel_exam_novar.xlsx", col_names = F) 
 ## col_names 파라미터로 첫번째 행을 변수로 인식, F는 대문자
 df_exam_novar
+
+df_exam_sheet<-read_excel("C:/Users/gangh/Documents/GitHub/easy-R/excel_exam_sheet.xlsx", sheet = 3)
+## sheet 파라미터를 이용해 지정
+
+df_csv_exam<-read.csv("C:/Users/gangh/Documents/GitHub/easy-R/csv_exam.csv")
+##별도의 패키지 설치를 필요로 X
+## 변수행 없을 경우 "header = F" 파라미터 이용 cf) col_name = F
+
+df_midterm<-data.frame(english<-c(90, 80, 60, 70), math=c(50, 60, 100, 20), class=c(1, 1, 2, 2))
+write.csv(df_midterm, file="df_midterm.csv") ## R 내장함수 이용
+
+saveRDS(df_midterm, file = "df_midterm.rds") ## RDS로 저장
+
+rm(df_midterm) ## df_midterm 삭제
+df_midterm
+## 에러: 객체 'df_midterm'를 찾을 수 없습니다
+
+df_midterm<-readRDS("C:/Users/gangh/Desktop/easy_r/R/df_midterm.rds", col_name = F)
+## 파일 불러오기
+df_midterm
