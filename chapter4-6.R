@@ -189,3 +189,44 @@ mpg_new
 ## manufacturer model      displ  year   cyl trans      drv    city highway fl    class  
 ## <chr>        <chr>      <dbl> <int> <int> <chr>      <chr> <int>   <int> <chr> <chr>  
 ##   1 audi         a4           1.8  1999     4 auto(l5)   f        18      29 p     compact
+
+##5-3 파생변수 만들기
+
+df<-data.frame(var1=c(4, 3, 8), var2=c(2, 6, 1)) ##데이터 프레임 생성
+df$var_sum<-df$var1+df$var2 ## var_sum 파생변수
+df$var_mean<-(df$var1+df$var2)/2 ## var_mean 파생변수
+df
+## var1 var2 var_sum var_mean
+## 1    4    2       6      3.0
+## 2    3    6       9      4.5
+## 3    8    1       9      4.5
+
+mpg$total<-(mpg$cty+mpg$hwy)/2
+head(mpg)
+## manufacturer model displ  year   cyl trans      drv     cty   hwy fl    class   total
+## <chr>        <chr> <dbl> <int> <int> <chr>      <chr> <int> <int> <chr> <chr>   <dbl>
+##   1 audi         a4      1.8  1999     4 auto(l5)   f        18    29 p     compact  23.5
+
+summary(mpg$total)
+## Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 10.50   15.50   20.50   20.15   23.50   39.50 
+
+hist(mpg$total) ## 히스토그램 생성
+
+## 요약통계량과 히스토그램 총합결과 total이 20을 넘기면 합격, 아니면 불합격으로 기준삼기
+
+mpg$test<-ifelse(mpg$total>=20, "pass", "fail")
+head(mpg, 20)
+## manufacturer model ...  total test ##test 속성 생성
+## <chr>        <chr> ... <dbl> <chr>
+##  1 audi         a4 ...    23.5 pass 
+##  2 audi         a4  ... 25   pass 
+
+table(mpg$test) ## 합격 빈도표 생성
+## fail pass 
+## 106  128 
+
+library(ggplot2) ## 패키지 로드
+qplot(mpg$test) ## 막대 그래프 생성
+
+
