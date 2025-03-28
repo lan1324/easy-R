@@ -311,3 +311,4 @@ mpg_aver<-mpg %>% filter(manufacturer %in% c("chevrolet", "fords", "honda"))
 mean(mpg_aver$hwy)
 ## [1] 25.32143
 
+
