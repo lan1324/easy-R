@@ -244,6 +244,70 @@ table(mpg$grade)
 
 qplot(mpg$grade)
 
-mpg$grade2<-ifelse(mpg$total>=30, "A"
-                   ifelse(mpg$total>=25, "B"
+mpg$grade2<-ifelse(mpg$total>=30, "A",
+                   ifelse(mpg$total>=25, "B",
                           ifelse(mpg$total>=20, "C", "D")))
+
+
+## ---------chapter 6 ------------
+##6-2 조건에 맞는 데이터만 추출하기
+
+library(dplyr)
+exam<-read.csv("C:/Users/gangh/Desktop/easy_r/R/csv_exam.csv")
+
+exam %>% filter(class==1) ## exam에서 class 가 1인 경우만 추출
+## id class math english science
+## 1  1     1   50      98      50
+## 2  2     1   60      97      60
+## 3  3     1   45      86      78
+## 4  4     1   30      98      58
+
+exam %>% filter(class != 1) ## 1반이 아닌 경우 추출 
+## id class math english science
+## 1   5     2   25      80      65
+## 2   6     2   50      89      98
+## 3   7     2   80      90      45
+
+exam %>% filter(math>50) ## 수학 점수가 50점을 초과하는 경우
+exam %>% filter(math<50) ## 수학 점수가 50점 미만인 경우
+exam %>% filter(english>=80) ## 영어 점수가 80점 이상인 경우
+exam %>% filter(english<=80) ## 영어 점수가 80점 이하인 경우
+
+exam %>% filter(class==1 & math>=50) ## 1반이면서 수학점수 50점 이상
+exam %>% filter(class==2 & english >=80)
+exam %>% filter(math>=90 | english>=90) ## 수학이나 영어 점수가 90점 이상
+exam %>% filter(english<90 | science<50)
+
+##1, 3, 5반에 해당하면 추출
+exam %>% filter(class==1 | class==3 | class==5)
+exam %>% filter(class %in% c(1,3,5))
+
+class1<-exam %>% filter(class==1) ##class 1인 행 추출, 할당
+class2<-exam %>% filter(class==2) ##class 2인 행 추출, 할당
+mean(class1$math) ##1반 수학 평균
+mean(class$math) ##2반 수학 평균
+
+## 혼자서 해보기
+# Q1. 평균 비교
+library(ggplot2)
+mpg <- as.data.frame(ggplot2::mpg)
+mpg_4 <- mpg %>% filter(displ<=4)
+mpg_5 <- mpg %>% filter(displ>=5)
+mean(mpg_4$hwy)
+## [1] 25.96319
+mean(mpg_5$hwy)
+## [1] 18.07895
+
+# Q2. 제조 회사에 따른 연비
+mpg_audi<-mpg %>% filter(manufacturer=="audi")
+mpg_toyota<-mpg %>% filter(manufacturer=="toyota")
+mean(mpg_audi$cty)
+## [1] 17.61111
+mean(mpg_toyota$cty)
+## [1] 18.52941
+
+# Q3. 전체 평균 구하기
+mpg_aver<-mpg %>% filter(manufacturer %in% c("chevrolet", "fords", "honda"))
+mean(mpg_aver$hwy)
+## [1] 25.32143
+
