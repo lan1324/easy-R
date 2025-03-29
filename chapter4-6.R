@@ -398,3 +398,78 @@ group_b<-data.frame(id=c(6, 7, 8, 9, 10),
 group_all<-bind_rows(group_a, group_b) #두 데이터의 변수명이 같아야 함. 다를시 변수명 변경 필요
 group_all
 
+##혼자해보기
+##Q1.
+install.packages("dplyr")
+library(dplyr)
+mpg<-as.data.frame(ggplot2::mpg)
+df<-mpg %>% select(class, cty)
+head(df)
+
+##Q2.
+df_suv<-df%>%filter(class=="suv")
+df_compact<-df%>%filter(class=="compact")
+mean(df_suv$cty)
+## [1] 13.5
+mean(df_compact$cty)
+## [1] 20.12766
+
+##Q1.
+mpg%>%filter(manufacturer=="audi") %>%
+  arrange(desc(hwy))%>%
+  head(5)
+
+##Q1. 
+mpg_new<-mpg
+mpg_new<-mpg_new%>%mutate(total=hwy+cty)
+
+##Q2.
+mpg_new<-mpg_new%>%mutate(mean=total/2)
+
+##Q3.
+mpg_new%>%
+  arrange(desc(mean)) %>%
+  head(3)
+
+##Q4.
+mpg %>%
+  mutate(total=hwy+cty, mean=(hwy+cty)/2) %>%
+  arrange(desc(mean))%>%
+  head(3)
+
+##Q1. 
+mpg<-as.data.frame(ggplot2::mpg)
+mpg%>%
+  group_by(class)%>%
+  summarise(mean_cty=mean(cty))
+
+##Q2. 
+mpg%>%
+  group_by(class)%>%
+  summarise(mean_cty=mean(cty))%>%
+  arrange(desc(mean_cty))
+
+##Q3.
+mpg%>%
+  group_by(class)%>%
+  summarise(mean_hwy=mean(hwy))%>%
+  arrange(desc(mean_hwy))%>%
+  head(3)
+
+##Q4.
+mpg %>%
+  filter(class=="compact") %>%
+  group_by(manufacturer) %>%
+  summarise(count=n()) %>%
+  arrange(desc(count))
+
+##Q1.
+fuel<-data.frame(f1=c("c", "d", "e", "p", "r"),
+                 price_f1=c(2.35, 2.38, 2.11, 2.76, 2.22))
+mpg<-as.data.frame(ggplot2::mpg)
+mpg <- left_join(mpg, fuel, by="f1")
+
+##Q2.
+mpg %>%
+  select(model, f1, price_f1) %>%
+  head(3)
