@@ -341,4 +341,60 @@ exam %>%
 ## cf) df$var_sum
   head 
 
+#6-6집단별로 요약하기
+exam %>% summarise(mean_math=mean(math))
+##  mean_math
+## 1     57.45
+
+exam %>%
+  group_by(class) %>% ## class별로 구분
+  summarise(mean_math=mean(math)) #class별 math평균
+##   class mean_math
+## <int>     <dbl>
+##   1     1      46.2
+## 2     2      61.2
+## 3     3      45  
+## 4     4      56.8
+## 5     5      78 
+
+exam %>%
+  group_by(class) %>% ## class별로 구분
+  summarise(mean_math=mean(math),
+            sum_math=sum(math),
+            median_math=median(math), ##중간값
+            n=n(), ##빈도수
+            sd=sd(math)) ##표준편차
+
+mpg %>%
+  group_by(manufacturer, drv) %>% ##회사별, 구동방식별 분리
+  summarise(mean_cty=mean(cty)) %>% ##cty평균 산출
+  head(10)
+
+mpg %>%
+  group_by(manufacturer) %>%  #회사별로 구분
+  filter(class=="suv") %>%  #suv 추출
+  mutate(tot=(cty+hwy)/2) %>%  #통합연비 파생변수 생성
+  summarise(mean_tot=mean(tot)) %>% #통합연비 평균 산출
+  arrange(desc(mean_tot)) %>% #내림차순정렬
+  head(5) #1-5위 출력
+
+#6-7 데이터 합치기
+test1<-data.frame(id=c(1, 2, 3, 4, 5),
+                  midterm=c(60, 80, 70, 90, 85))
+test2<-data.frame(id=c(1, 2, 3, 4, 5),
+                  final=c(70, 83, 65, 95, 80))
+total<-left_join(test1, test2, by="id") #id를 기준으로 합쳐 total에 할당
+total
+
+name<-data.frame(class=c(1, 2, 3, 4, 5),
+                 teacher=c("kim", "lee", "park", "choi", "jung"))
+exam_new<-left_join(exam, name, by="class") #다른 변수를 기준으로 들어간다
+exam_new
+
+group_a<-data.frame(id=c(1, 2, 3, 4, 5),
+                    test=c(60, 80, 70, 90, 85))
+group_b<-data.frame(id=c(6, 7, 8, 9, 10), 
+                    test=c(70, 83, 65, 95, 80))
+group_all<-bind_rows(group_a, group_b) #두 데이터의 변수명이 같아야 함. 다를시 변수명 변경 필요
+group_all
 
