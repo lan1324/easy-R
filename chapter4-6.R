@@ -312,3 +312,33 @@ mean(mpg_aver$hwy)
 ## [1] 25.32143
 
 
+#6-3 필요한 변수만 추출하기
+exam %>% select(math) #math 변수만 추출해 출력
+exam %>% select(english)
+exam %>% select(class, math, english)
+exam %>% select(-math)
+
+exam %>% filter(class==1) %>% select(english) # class 1인 행 중 english 추출
+exam %>% select(id, math) %>% head #id, math 앞부분 6행까지 추출
+exam %>% select(id, math) %>% head(10) 
+
+#6-4 순서대로 정렬하기
+exam %>% arrange(math) #math 오름차순으로 정렬
+exam %>% arrange(desc(math)) #math 내림차순으로 정렬
+exam %>% arrange(class, math) #class 오름차순 후 math 오름차순 정렬
+
+exam %>% mutate(total=math+english+science)%>%head #total 변수추가, 앞 6행출력
+exam %>% 
+  mutate(total=math+english+science,          #총변수
+         mean=(math+english+science)/3)%>%    # 평균변수
+  head 
+exam %>%
+  mutate(test=ifelse(science>=60, "pass", "fail")) %>%  #ifelse()함수 삽입
+  head
+exam %>%
+  mutate(total=math+english+science) %>%
+  arrange(total) %>% #dplyr패키지 사용해서 배열<데이터프레임명 필요x
+## cf) df$var_sum
+  head 
+
+
