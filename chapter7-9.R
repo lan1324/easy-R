@@ -56,3 +56,10 @@ exam %>% summarise(mean_math=mean(math))
 exam %>% summarise(mean_math=mean(math, na.rm=T), sum_math=sum(math, na.rm=T), median_math=median(math, na.rm=T))
 ## mean_math sum_math median_math
 ## 1  55.23529      939          50
+
+mean(exam$math, na.rm=T) #결측치 제외하고 math평균 산출
+## [1] 55.23529
+exam$math<-ifelse(is.na(exam$math), 55, exam$math) #math가 NA면 55로 대체
+table(is.na(exam$math)) # 결측치 빈도표 생성
+
+## 7-2이상치 정제하기
