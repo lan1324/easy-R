@@ -63,3 +63,5 @@ exam$math<-ifelse(is.na(exam$math), 55, exam$math) #math가 NA면 55로 대체
 table(is.na(exam$math)) # 결측치 빈도표 생성
 
 ## 7-2이상치 정제하기
+outlier<-data.frame(sex=c(1, 2, 1, 3, 2, 1), score=c(5, 4, 3, 4, 2, 6))
+
