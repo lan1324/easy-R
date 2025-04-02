@@ -64,4 +64,48 @@ table(is.na(exam$math)) # 결측치 빈도표 생성
 
 ## 7-2이상치 정제하기
 outlier<-data.frame(sex=c(1, 2, 1, 3, 2, 1), score=c(5, 4, 3, 4, 2, 6))
+table(outlier$sex)
+table(outlier$score)
 
+#sex가 3이면서 NA할당
+outlier$sex<-ifelse(outlier$sex==3, NA, outlier$sex)
+outlier
+
+#score가 5보다 크면 NA할당
+outlier$score<-ifelse(outlier$score>5, NA, outlier$score)
+outlier
+
+outlier %>%
+  filter(!is.na(sex) & !is.na(score)) %>% ##이상값을 제하고 평균 내기
+  group_by(sex) %>%
+  summarise(mean_score=mean(score))
+
+#극단치 제거하기
+#상자그림으로 극단치 기준 정하기
+
+boxplot(mpg$hwy)
+boxplot(mpg$hwy)$stats
+## [,1]
+## [1,]   12
+## [2,]   18
+## [3,]   24
+## [4,]   27
+## [5,]   37
+
+## 12-37사이를 벗어나면 NA할당
+mpg$hwy<-ifelse(mpg$hwy<12|mpg$hwy>37, NA, mpg$hwy)
+table(is.na(mpg$hwy))
+## FALSE  TRUE 
+## 231     3 
+
+mpg %>%
+  group_by(drv) %>%
+  summarise(mean_hwy=mean(hwy, na.rm=T))
+##   drv   mean_hwy
+## <chr>    <dbl>
+##  1 4         19.2
+## 2 f         27.7
+## 3 r         21  
+
+## ----------------------chapter 8----------
+## 8-2 산점도-변수간 관계 표현하기
