@@ -143,4 +143,11 @@ ggplot(data=mpg, aes(x=drv, y=hwy)) + geom_boxplot()
 
 
 ## -------------------chapter 9------------
-#9-1 한국복지패널데이터 분석석
+#9-1 한국복지패널데이터 분석
+install.packages("foreign")
+library(foreign)
+library(dplyr)
+library(ggplot2)
+library(readxl)
+
+raw_welfare<-read.spss(file="C:/Users/gangh/Desktop/easy_r/R/Koweps_hpc10_2015_beta1.sav")
