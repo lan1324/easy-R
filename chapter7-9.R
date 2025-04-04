@@ -310,3 +310,105 @@ ggplot(data=job_male, aes(x=reorder(job,n), y=n)) +
 ggplot(data=job_female, aes(x=reorder(job, n), y=n)) +
   geom_col() +
   coord_flip()
+
+## 9-8 종교 유무에 따른 이혼율
+##종교 유무 변수 
+class(welfare$religion)
+welfare$religion<-ifelse(welfare$religion==1, "yes", "no") ##종교유무에 이름부여여
+qplot(welfare$religion)
+
+##이혼여부 파생변수
+class(welfare$marriage)
+welfare$group_marriage<-ifelse(welfare$marriage==1, "marriage", 
+                               ifelse(welfare$marriage==3, "divorce", NA))
+qplot(welfare$group_marriage)
+
+religion_marriage<-welfare %>%
+  filter(!is.na(group_marriage)) %>%
+  group_by(religion, group_marriage) %>%
+  summarise(n=n()) %>%
+  mutate(tot_group=sum(n), 
+         pct=round(n/tot_group*100,1))
+
+divorce<-religion_marriage%>%
+  filter(group_marriage=="divorce") %>%
+  select(religion, pct)
+ggplot(data=divorce, aes(x=religion, y=pct)) +geom_col()
+
+ageg_marriage<-welfare %>%
+  filter(!is.na(group_marriage)) %>%
+  group_by(ageg, group_marriage) %>%
+  summarise(n=n()) %>%
+  mutate(tot_group=sum(n),
+         pct=round(n/tot_group*100,1))
+
+#이혼 데이터 추출
+ageg_divorce <- ageg_marriage %>%
+  filter(ageg !="young"&group_marriage=="divorce") %>%
+  select(ageg, pct)
+ggplot(data=ageg_divorce, aes(x=ageg, y=pct)) + geom_col()
+
+ageg_religion_marriage<-welfare %>%
+  filter(!is.na(group_marriage)&ageg!="young") %>%
+  group_by(ageg, religion, group_marriage) %>%
+  summarise(n=n()) %>%
+  mutate(tot_group=sum(n),
+         pct=round(n/tot_group*100,1))
+df_divorce<-ageg_religion_marriage %>%
+  filter(group_marriage=="divorce") %>%
+  select(ageg, religion, pct)
+ggplot(data=df_divorce, aes(x=ageg, y=pct, fill=religion)) +
+  geom_col(position="dodge")
+
+## 9-9 지역별 연령대 비율
+class(welfare$code_region)
+list_region<-data.frame(code_region=c(1:7),
+                        region=c("서울",
+                                 "수도권(인천/경기)",
+                                 "부산/경남/울산",
+                                 "대구/경북",
+                                 "대전/충남",
+                                 "강원/충북",
+                                 "광주/전남/전북/제주도"))
+welfare<-left_join(welfare, list_region, by="code_region")
+welfare %>%
+  select(code_region, region) %>%
+  head
+
+region_ageg<-welfare %>%
+  group_by(region, ageg) %>%
+  summarise(n=n()) %>%
+  mutate(tot_group=sum(n),
+         pct=round(n/tot_group*100,2))
+head(region_ageg)
+
+region_ageg<-welfare %>%
+  count(region, ageg) %>%
+  group_by(region) %>%
+  mutate(pct=round(n/sum(n)*100,2))
+
+ggplot(data=region_ageg, aes(x=region, y=pct, fill=ageg)) +
+  geom_col()+
+  coord_flip()
+
+##노년층 비율 높은 순으로 정렬
+list_order_old <- region_ageg %>%
+  filter(ageg=="old") %>%
+  arrange(pct)
+order<- list_order_old$region
+ggplot(data=region_ageg, aes(x=region, y=pct, fill=ageg)) +
+  geom_col()+
+  coord_flip()+
+  scale_x_discrete(limits=order)
+
+##연령대 순으로 막대 색깔 나열
+class(region_ageg$ageg)
+levels(region_ageg$ageg)
+region_ageg$ageg<-factor(region_ageg$ageg, 
+                         level=c("old", "middle", "young"))
+class(region_ageg$ageg)
+levels(region_ageg$ageg)
+ggplot(data=region_ageg, aes(x=region, y=pct, fill=ageg)) +
+  geom_col()+
+  coord_flip()+
+  scale_x_discrete(limits=order)
