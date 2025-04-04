@@ -230,3 +230,60 @@ ggplot(data=ageg_income, aes(x=ageg,y=mean_income)) + geom_col() + scale_x_discr
 ## 밑의 영문자 알파벳 순으로 진행되지 않도록
 
 ## 9-5 연령대와 성별
+sex_income<-welfare %>%
+  filter(!is.na(income)) %>%
+  group_by(ageg, sex) %>%
+  summarise(mean_income=mean(income))
+
+ggplot(data=sex_income, aes(x=ageg, y=mean_income, fill=sex)) + 
+  geom_col(position="dodge") +
+  scale_x_discrete(limits=c("young", "middle", "old"))
+
+sex_age<-welfare %>%
+  filter(!is.na(income)) %>%
+  group_by(age, sex) %>%
+  summarise(mean_income=mean(income))
+head(sex_age)
+
+ggplot(data=sex_age, aes(x=age, y=mean_income, col=sex)) + geom_line()
+
+## 9-6 직업별 월급차이
+class(welfare$code_job) ##직업이 코드로 나타나있어서 파악이 어려움
+library(readxl)
+list_job<-read_excel("C:/Users/gangh/Desktop/easy_r/R/Koweps_Codebook.xlsx", col_names = T, sheet=2) 
+## 첫행이 변수명, 두번째 시트가져오기
+
+## 변수 결합합
+welfare<-left_join(welfare, list_job, by="code_job")
+welfare %>%
+  filter(!is.na(code_job)) %>%
+  select(code_job, job) %>%
+  head(10)
+
+job_income<-welfare %>%
+  filter(!is.na(job) & !is.na(income)) %>%
+  group_by(job) %>%
+  summarise(mean_income=mean(income))
+
+##상위 10위의 직업 확인
+top10<- job_income %>% 
+  arrange(desc(mean_income)) %>%
+  head(10)
+
+ggplot(data=top10, aes(x=reorder(job, mean_income), y=mean_income))+
+  geom_col() +
+  coord_flip()
+
+##하위 10위의 직업 확인
+bottom10<-job_income %>%
+  arrange(mean_income) %>%
+  head(10)
+
+ggplot(data=bottom10, aes(x=reorder(job, -mean_income), y=mean_income)) +
+  geom_col() +
+  coord_flip() +
+  ylim(0, 850)
+
+##9-7성별 직업 빈도
+#남성 직업 빈도 상위 10개 추출
+job_
