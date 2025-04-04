@@ -145,9 +145,27 @@ ggplot(data=mpg, aes(x=drv, y=hwy)) + geom_boxplot()
 ## -------------------chapter 9------------
 #9-1 한국복지패널데이터 분석
 install.packages("foreign")
-library(foreign)
-library(dplyr)
-library(ggplot2)
-library(readxl)
+library(foreign) #spss파일 불러오기
+library(dplyr) #전처리 함수 패키지
+library(ggplot2) #시각화 함수 패키지
+library(readxl) # 엑셀파일 불러오기 함수
 
-raw_welfare<-read.spss(file="C:/Users/gangh/Desktop/easy_r/R/Koweps_hpc10_2015_beta1.sav")
+raw_welfare<-read.spss(file="C:/Users/gangh/Desktop/easy_r/R/Koweps_hpc10_2015_beta1.sav", to.data.frame=T) 
+welfare<-raw_welfare ## 복사본 만들기
+
+head(welfare)
+tail(welfare)
+View(welfare)
+dim(welfare)
+str(welfare)
+summary(welfare)
+
+welfare<-rename(welfare,
+                sex=h10_g3, 
+                birth=h10_g4, 
+                marriage=h10_g10,
+                religion=h10_g11,
+                income=p1002_8aq1,
+                code_job=h10_eco9,
+                code_region=h10_reg7)
+##9-2 성별에 따른 월급차이
