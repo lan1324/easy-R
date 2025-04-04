@@ -168,4 +168,65 @@ welfare<-rename(welfare,
                 income=p1002_8aq1,
                 code_job=h10_eco9,
                 code_region=h10_reg7)
+
 ##9-2 성별에 따른 월급차이
+
+##성별데이터처리
+class(welfare$sex)
+table(welfare$sex)
+## 1    2 
+## 7578 9086  이상치 없음을 확인
+welfare$sex<-ifelse(welfare$sex==1, "male", "female")
+qplot(welfare$sex)
+
+class(welfare$income)
+summary(welfare$income) ##table함수를 쓰기엔 항목이 너무 많다
+qplot(welfare$income)+xlim(0, 1000) ##월급은 1-9998사이/0, 9999는 결측치처리
+
+welfare$income<-ifelse(welfare$income %in% c(0, 9999), NA, welfare$income)
+table(is.na(welfare$income))
+
+sex_income<-welfare %>%
+  filter(!is.na(income)) %>%
+  group_by(sex) %>%
+  summarise(mean_income=mean(income))
+sex_income
+## sex    mean_income
+## <chr>        <dbl>
+## 1 female        163.
+## 2 male          312.  남성이 월급평균이 더 높다
+
+ggplot(data=sex_income, aes(x=sex, y=mean_income))+geom_col()
+
+##9-3 나이와 월급의 관계
+class(welfare$birth)
+summary(welfare$birth) ##내에 이상치는 없음/결측치없음
+qplot(welfare$birth)
+
+#파생변수 나이 만들기
+welfare$age<-2015-welfare$birth+1
+summary(welfare$age)
+qplot(welfare$age)
+
+age_income<-welfare %>%
+  filter(!is.na(income)) %>%
+  group_by(age) %>%
+  summarise(mean_income=mean(income))
+ggplot(data=age_income, aes(x=age, y=mean_income))+geom_line()
+
+#9-4연령대에 따른 월급 차이
+# 연령대 파생변수 만들기
+welfare <- welfare %>%
+  mutate(ageg=ifelse(age<30, "young", 
+                     ifelse(age<=59, "middle", "old")))
+qplot(welfare$ageg)
+
+ageg_income<-welfare %>%
+  filter(!is.na(income)) %>%
+  group_by(ageg) %>%
+  summarise(mean_income=mean(income))
+
+ggplot(data=ageg_income, aes(x=ageg,y=mean_income)) + geom_col() + scale_x_discrete(limits=c("young", "middle", "old"))
+## 밑의 영문자 알파벳 순으로 진행되지 않도록
+
+## 9-5 연령대와 성별
