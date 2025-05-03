@@ -20,6 +20,12 @@ t.test(data=mpg_diff, cty ~ class, var.equal = T)
 ## compact는 20이고 suv는 13이니 compact의 연비가 더 높음
 
 mpg_diff2 <- mpg %>%
-  select(f1, cty) %>%
-  filter(f1 %in% c("r", "p")) ##regular, premium
-table(mpg_diff)
+  select(fl, cty) %>%
+  filter(fl %in% c("r", "p")) ##regular, premium
+table(mpg_diff2$fl)
+##   p   r 
+## 52 168 
+
+t.test(data=mpg_diff2, cty ~ fl, var.equal=T)
+## t = 1.0662, df = 218, p-value = 0.2875
+
