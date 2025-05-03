@@ -78,3 +78,45 @@ exam[exam$math>=80,] #수학 점수가 80점 이상인 행 추출
 ## 8   8     2   90      78      25
 ## 18 18     5   80      78      90
 ## 19 19     5   89      68      87
+
+
+#1번이면서 수학점수가 50점 이상
+exam[exam$class==1&exam$math>=50,]
+##   id class math english science
+## 1  1     1   50      98      50
+## 2  2     1   60      97      60
+
+##영어 점수가 90점 미만이거나 과학점수가 50점 미만
+exam[exam$english<90|exam$science<50,]
+
+exam[,1] #첫번째 열 추출출
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+exam[,2]
+##  [1] 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4 5 5 5 5
+exam[,3]
+##  [1] 50 60 45 30 25 50 80 90 20 50 65 45 46 48 75 58 65 80 89 78
+
+exam[,"class"] #class변수 추출
+##  [1] 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4 5 5 5 5
+exam[, "math"] # math 변수 추출
+##  [1] 50 60 45 30 25 50 80 90 20 50 65 45 46 48 75 58 65 80 89 78
+exam[,c("class", "math", "english")] # class, math, english 동시 추출
+
+exam[1,3]
+## [1] 50
+exam[5, "english"] ## 행 인덱스, 열 변수명
+## [1] 80
+exam[exam$math>=50, "english"]
+##  [1] 98 97 89 90 78 98 65 56 98 68 78 68 83
+exam[exam$math>=50, c("english", "science")] #행 부등호, 열 변수명
+
+##내장 함수 코드
+exam$tot <- (exam$math+exam$english+exam$science)/3
+aggregate(data=exam[exam$math>=50&exam$english>=80,],tot~class, mean)
+
+##dplyr코드
+exam %>%
+  filter(math>=50&english>=80) %>%
+  mutate(tot=(math+english+science)/3) %>%
+  group_by(class) %>%
+  summarise(mean=mean(tot))
