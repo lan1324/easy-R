@@ -120,3 +120,54 @@ exam %>%
   mutate(tot=(math+english+science)/3) %>%
   group_by(class) %>%
   summarise(mean=mean(tot))
+
+##chapter 15-2
+var1 <- c(1, 2, 3, 1, 2)
+var2 <- factor(c(1,2,3,1,2)) #factor변수 생성
+var1
+##[1] 1 2 3 1 2
+var2
+## Levels: 3 << 값의 범주가 같이 나온다
+
+var1+2
+## [1] 3 4 5 3 4
+var2+2
+## Ops.ordered(var2, 2)에서: '+' is not meaningful for ordered factors
+
+class(var1)
+## [1] "numeric"
+class(var2)
+## [1] "factor"
+
+levels(var1)
+## NULL
+levels(var2)
+## [1] "1" "2" "3"
+
+var3<-c("a", "b","b","b", "c")
+var4 <- factor(c("a", "b", "b", "c"))
+var3
+## [1] "a" "b" "b" "b" "c"
+var4
+## [1] a b b c
+## Levels: a b c
+
+class(var3)
+##[1] "character"
+class(var4)
+## [1] "factor"
+
+mean(var1)
+## [1] 1.8
+mean(var2)
+##   인자가 수치형 또는 논리형이 아니므로 NA를 반환합니다
+
+var2 <- as.numeric(var2)
+mean(var2)
+## [1] 1.8
+
+class(var2)
+## [1] "numeric"
+
+levels(var2)
+## NULL
